@@ -1,6 +1,14 @@
 import sys
 import getopt
 
+
+def done(username, password, email, cal, msg):
+    print '%s:%s' % (username, password)
+    print 'from: %s' % email
+    print 'to: %s@team.idonethis.com' % cal
+    print 'body: %s' % msg
+
+
 def main(argv):
     cal = None
     email = None
@@ -30,6 +38,10 @@ def main(argv):
         print 'Missing option parameter, see usage:'
         print 'idonethis.py -c <cal> -e <email> -p <password> -t <text>'
         sys.exit(2)
+
+    username = email[:email.index('@')]
+    done(username, password, email, cal, text)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
