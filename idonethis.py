@@ -1,12 +1,22 @@
 import sys
 import getopt
+import smtplib
 
 
 def done(username, password, email, cal, msg):
-    print '%s:%s' % (username, password)
-    print 'from: %s' % email
-    print 'to: %s@team.idonethis.com' % cal
-    print 'body: %s' % msg
+    fromaddress = email
+    toaddress  = '%s@team.idonethis.com' % cal
+    subject = "What'd you get done today? Sunday, August 10"
+    message = "From: %s\nTo: %s\nSubject: %s\n\n%s" % (fromaddress, toaddress, subject, msg)
+
+    try:
+        server = smtplib.SMTP('smtp.gmail.com:587')
+        server.starttls()
+        server.login(username,password)
+        server.sendmail(fromaddress, [toaddress], message)
+        server.quit()
+    except Exception as e:
+        print 'Error sending message: %s' % e
 
 
 def main(argv):
@@ -33,6 +43,15 @@ def main(argv):
             password = arg
         elif opt in ("-t", "--text"):
             text = arg
+
+    if (not cal) or (not email) or (not password) or (not text):
+        print 'Missing option parameter, see usage:'
+        print 'idonethis.py -c <cal> -e <email> -p <password> -t <text>'
+        sys.exit(2)
+
+    if '@gmail.com' not in email and '@' in email:
+        print 'Email not supported, yet. Only email service supported is gmail.'
+        sys.exit(2)
 
     if (not cal) or (not email) or (not password) or (not text):
         print 'Missing option parameter, see usage:'
