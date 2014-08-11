@@ -1,12 +1,19 @@
 import sys
 import getopt
 import smtplib
+from datetime import date
+
+
+def get_subject():
+    # i.e. Sunday, August 10
+    today = date.today()
+    return today.strftime("What'd you get done today? %A, %B %d")
 
 
 def done(username, password, email, cal, msg):
     fromaddress = email
     toaddress  = '%s@team.idonethis.com' % cal
-    subject = "What'd you get done today? Sunday, August 10"
+    subject = get_subject()
     message = "From: %s\nTo: %s\nSubject: %s\n\n%s" % (fromaddress, toaddress, subject, msg)
 
     try:
