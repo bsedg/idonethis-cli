@@ -40,7 +40,7 @@ def main(argv):
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print 'idonethis.py -g <generations> -c <crossover-rate> -m <mutation-rate> -s <population-size> -p <parameters> -f <input-file>'
+            print 'idonethis.py -c <cal> -e <email> -p <password> -t <text>'
             sys.exit()
         elif opt in ("-c", "--cal"):
             cal = arg
